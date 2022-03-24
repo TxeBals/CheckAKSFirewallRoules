@@ -1,0 +1,63 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="form-group row">
+    <label for="aks-api" class="col-4 col-form-label">AKS Api url</label>
+    <div class="col-8">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <i class="fa link"></i>
+                </div>
+            </div>
+            <input id="aks-api" name="aks-api" placeholder="aks-condor-int-94e9b89c.hcp.northeurope.azmk8s.io" type="url" class="form-control" required="required" value="aks-condor-int-94e9b89c.hcp.northeurope.azmk8s.io">
+        </div>
+    </div>
+</div>
+<div class="form-group row">
+    <label for="region" class="col-4 col-form-label">Region</label>
+    <div class="col-8">
+        <input id="region" name="region" placeholder="northeurope" type="text" class="form-control" required="required" value="northeurope">
+    </div>
+</div>
+<div class="form-group row">
+    <div class="offset-4 col-8">
+        <button name="submit" type="button" id="doit" class="btn btn-primary">Check connectivity</button>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $("#doit").click(function () {
+            var aks = $("#aks-api").val();
+            var region = $("#region").val();
+
+            if (!aks.trim() || aks.indexOf("azmk8s.io") == -1) {
+                $.alert('AKS API url is invalid',
+                    {            
+                        closeTime: 5000,
+                        autoClose: true,
+                        position:'top-right'
+                    });
+                return;
+            }
+
+
+            if (!region.trim()) {
+                $.alert('Region is invalid',
+                    {                     
+                        closeTime: 5000,
+                        autoClose: true,
+                        position:'top-right'
+                    });
+                return;
+            }           
+
+            window.location = "/home/CheckConnectivity/?api=" + aks + "&region=" + region;
+        });
+    });
+   
+
+</script>
+

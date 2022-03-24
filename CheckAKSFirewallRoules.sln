@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29519.87
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckAKSFirewallRoules", "CheckAKSFirewallRoules\CheckAKSFirewallRoules.csproj", "{0ACFA3E1-CC36-487F-96D8-4B966457CCED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0ACFA3E1-CC36-487F-96D8-4B966457CCED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0ACFA3E1-CC36-487F-96D8-4B966457CCED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0ACFA3E1-CC36-487F-96D8-4B966457CCED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0ACFA3E1-CC36-487F-96D8-4B966457CCED}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A551B055-29A6-4615-A973-50F698096553}
+	EndGlobalSection
+EndGlobal

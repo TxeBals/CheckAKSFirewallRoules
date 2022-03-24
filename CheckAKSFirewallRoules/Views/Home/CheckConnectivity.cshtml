@@ -1,0 +1,138 @@
+﻿@model CheckConnectivityModel
+
+
+@{
+    ViewData["Title"] = "CheckConnectivity";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="form-group row">
+    <label for="aks-api" class="col-4 col-form-label">AKS Api url</label>
+    <div class="col-8">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <i class="fa link"></i>
+                </div>
+            </div>
+            <input id="aks-api" name="aks-api" placeholder="aks-condor-int-94e9b89c.hcp.northeurope.azmk8s.io" type="url" class="form-control" required="required" value="@Model.AksApi">
+        </div>
+    </div>
+</div>
+<div class="form-group row">
+    <label for="region" class="col-4 col-form-label">Region</label>
+    <div class="col-8">
+        <input id="region" name="region" placeholder="northeurope" type="text" class="form-control" required="required" value="@Model.Region">
+    </div>
+</div>
+<div class="form-group row">
+    <div class="offset-4 col-8">
+        <button name="submit" type="button" id="doit" class="btn btn-primary">Check connectivity</button>
+    </div>
+</div>
+
+
+<div class="row">
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Url</th>
+                <th scope="col">Port</th>
+                <th scope="col">Status</th>
+                <th scope="col">Response</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var test in Model.States)
+            {
+            <tr>
+                <th scope="row">
+                    @test.Name
+                </th>
+                <th scope="row">
+                    @test.Description
+                </th>
+                <th scope="row">
+                    <a href="@test.Url" target="_blank"> @test.Url</a>
+                </th>
+                <th scope="row">
+                    @test.Port
+                </th>              
+                <th scope="row" id="status-@test.Name.Trim()">
+                    <i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
+                </th>
+                <th scope="row" id="response-@test.Name.Trim()">
+                    <i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
+                </th>
+            </tr>
+
+            }            
+        </tbody>
+    </table>
+</div>
+
+
+
+<script>
+    $(function () {
+        $("#doit").click(function () {
+            var aks = $("#aks-api").val();
+            var region = $("#region").val();
+
+            if (!aks.trim() || aks.indexOf("azmk8s.io") == -1) {
+                $.alert('AKS API url is invalid',
+                    {
+                        closeTime: 5000,
+                        autoClose: true,
+                        position:'top-right'
+                    });
+                return;
+            }
+
+
+            if (!region.trim()) {
+                $.alert('Region is invalid',
+                    {
+                        closeTime: 5000,
+                        autoClose: true,
+                        position:'top-right'
+                    });
+                return;
+            }
+
+            window.location = "/home/CheckConnectivity/?api=" + aks + "&region=" + region;
+        });
+
+        @foreach (var test in Model.States)
+        {
+            @:checkconnect('@test.Name');
+        }
+
+
+
+    });
+
+
+    function checkconnect(name) {
+        $.get("/home/TestConnectivity/?api=@Model.AksApi&region=@Model.Region&name=" + name, function (data) {
+            if (data.statusCode != undefined || data.statusCode != null) {
+               $("[id='status-" + $.trim(name)+"']").html(data.statusCode);
+            }
+            else {
+                $("[id='status-" + $.trim(name)+"']").html(data.otherCodes);
+            }
+
+            if (data.statusCode == 200) {
+                $("[id='response-" + $.trim(name)+"']").html('Click on url to see html response');
+            }
+            else {
+                $("[id='response-" + $.trim(name)+"']").html(data.fullResponse);
+            }
+        });        
+    }
+
+
+
+</script>
